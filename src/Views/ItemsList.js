@@ -1,30 +1,29 @@
 import React from 'react';
 import CardComponent from '../Components/Card';
 import Grid from '@material-ui/core/Grid';
+import { connect } from 'react-redux';
+import { getProducts, addingItemsToCart } from '../Redux/actions';
 
-export default class ItemsList extends React.Component {
+
+class ItemsList extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            productsArr : []
+            productsList : '',
+            addingItemsToCartArr: []
         }
     }
     componentDidMount(){
-        console.log("didmount222")
-        let th = this;
-        fetch('http://localhost:4000/getProducts', {
-			method  : 'get',
-			headers : {
-				'Content-Type' : 'application/json'
-			},
-		}).then((resp) => resp.json())
-			.then(function(respObj) {
-                th.setState({productsArr : respObj.products})
-            });
+        this.props.getProducts();
+    }
+    addItemstoCart(items) {
+        this.state.addingItemsToCartArr.push(items)
+        items.userName= 'manojavelugoti@gmail.com';
+        console.log(items)
+        this.props.addingItemsToCart(items);
     }
 
     render(){
-        {console.log(this.state.productsArr)}
         const cardStyle = {
             color: "#000",
             backgroundColor: "#fff",
@@ -33,8 +32,10 @@ export default class ItemsList extends React.Component {
         return (
             /** First Customized Component **/
             <div style = {{'marginTop' : 50}}>
+                {console.log(this.state)}
+                {console.log(this.props)}
                  <Grid container spacing={3}>
-                     {this.state.productsArr.length && this.state.productsArr.length > 0 && this.state.productsArr.map((val,index)=>{
+                     {this.props.productsList.length && this.props.productsList.length > 0 && this.props.productsList.map((val,index)=>{
                          return(
                          <Grid item md={3} sm = {4} xs= {6}>
                          <CardComponent 
@@ -46,6 +47,7 @@ export default class ItemsList extends React.Component {
                          itemsList = {true}
                          cardHeader = {false}
                          price = {val.Price}
+                         addItemstoCart = {this.addItemstoCart.bind(this, val)}
                      /> 
                  </Grid>
                          )
@@ -58,3 +60,9 @@ export default class ItemsList extends React.Component {
         );
   }
 }
+const mapStateToProps = state => {
+    console.log(state)
+    return { productsList: state.products.getItems }
+  };
+
+export default connect(mapStateToProps, { getProducts, addingItemsToCart })(ItemsList);

@@ -1,5 +1,4 @@
 import React from 'react';
-import Divider from '@material-ui/core/Divider';
 import {ButtonComponent} from './Button';
 
 const SampleCard = (props) => {
@@ -22,13 +21,13 @@ return(
        <div style={props.cardStyle}>
           {props.cardHeader ? <div style ={props.cardHeaderStyle}>Header</div> : null}
           {props.itemsList ? <div style = {{'padding' : 5}}>
-              <img src = {props.Image} width={props.imageWidth} height={props.imageHeight}/>
+              <img alt='' src = {props.Image} width={props.imageWidth} height={props.imageHeight}/>
                 <i>{props.cardTitle}</i>
                 <br/>
                 <b>{'Rs' + props.price}</b>
             </div> : null}
           {props.itemsList ? 
-          <div style = {footerStyle}><ButtonComponent name="Add To Cart" btnStyle={btnStyle}/></div> : null}
+          <div style = {footerStyle}><ButtonComponent name="Add To Cart" btnStyle={btnStyle} onClick = {props.addItemstoCart}/></div> : null}
          </div>
     )
 }

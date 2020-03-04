@@ -5,6 +5,8 @@ var app = express();
 var cors = require('cors')
 const port = process.env.PORT || 4000;
 app.use(cors())
+const bodyParser = require('body-parser'); 
+app.use(bodyParser.json());
 
 MongoClient.connect(url, function(err, client) {
   var db = client.db('Ecommerce');
@@ -16,6 +18,17 @@ MongoClient.connect(url, function(err, client) {
     //Sending array of objects
         res.send({products});
     });
+  });
+  app.post('/addingItemsToCart', (req, res) => {
+    console.log('items are coming');
+    console.log(req.body);
+    let myCartArr = req.body;
+    console.log('mycar--------', myCartArr);
+        db.collection("CartItems").insert(req.body, function(err, res) {
+        if (err) throw err;
+        console.log("1 document inserted");
+    });
+    
   });
   app.listen(port, () => console.log(`Listening on port 4000`));
 });
