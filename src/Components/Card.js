@@ -1,5 +1,6 @@
 import React from 'react';
 import {ButtonComponent} from './Button';
+import {InputComponent} from '../Components/InputComponent';
 
 const SampleCard = (props) => {
   const btnStyle = {
@@ -25,7 +26,19 @@ return(
                 <i>{props.cardTitle}</i>
                 <br/>
                 <b>{'Rs' + props.price}</b>
-            </div> : null}
+            </div> : 
+            props.loginCard ? 
+            <div style={{display:'flex', flexDirection: 'column', marginTop:'25%'}}>
+                <div style={{padding:20}}>
+                <InputComponent size='small' type="text" label="email" onChange={props.handleUserNameChange} />
+                </div>
+                <div style={{padding:20}}>
+                <InputComponent size='small' type="password" label="password" onChange={props.handlePasswordChange}/>
+                </div>
+                <div style={{padding:20}}>
+                <ButtonComponent color="primary" variant="contained" name="Login" onClick={props.onLoginClick}/>
+                </div>
+           </div> : null}
           {props.itemsList ? 
           <div style = {footerStyle}><ButtonComponent name="Add To Cart" btnStyle={btnStyle} onClick = {props.addItemstoCart}/></div> : null}
          </div>
