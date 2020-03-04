@@ -10,8 +10,8 @@ app.use(bodyParser.json());
 
 MongoClient.connect(url, function(err, client) {
   var db = client.db('Ecommerce');
-  console.log("Connection established")
-  
+  console.log("Connection established");
+
   app.post('/login', (req, res) => {
     let userName=req.body.userName;
     let password=req.body.password;
